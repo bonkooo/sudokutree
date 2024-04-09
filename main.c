@@ -6,7 +6,8 @@
 
 typedef struct treeNode{
     int** info;
-    struct cvor *left, *right;
+    int childrenSize;
+    struct treeNode** children;
 } TreeNode;
 
 typedef struct tree{
@@ -30,8 +31,8 @@ stack *inicijalizujStek() {
 
 TreeNode *kreirajCvor(int** matrix){
     TreeNode *cvor = (TreeNode*)malloc(sizeof(TreeNode));
-    cvor->left = NULL;
-    cvor->right = NULL;
+    cvor->childrenSize = 0;
+    cvor->children = NULL;
     cvor->info = matrix;
 
     return cvor;
@@ -148,50 +149,59 @@ int proveraValidneMatrice(int **matrix, int n){
     return 1;
 }
 
+void dodajDete(stack* stek, struct treeNode* curr, int n, int** novoStanje) {
+    if (proveraValidneMatrice(novoStanje, n)) {
+        struct treeNode* novoDete = kreirajCvor(novoStanje);
+        int childNum = curr->childrenSize;
+        struct treeNode** childArr = curr->children;
+        childNum++;
+        childArr = (struct treeNode**)realloc(childArr,  childNum * sizeof(struct treeNode*));
+        if (!childArr) {
+            printf("Greska u alokaciji memorije. \n");
+            return;
+        }
+        childArr[childNum - 1] = novoDete;
+        curr->children = childArr;
+        curr->childrenSize = childNum;
 
-void kreirajStablo(int** inicijalnaMatrica, struct tree *tree, int n){
-    stack *stek = inicijalizujStek();
-    push(stek, tree->root);
+        push(stek, novoDete);
+    }
+}
 
-    while(!stack_empty(stek)){
-        struct treeNode *curr = pop(stek);
-        if (curr){
-            for (int i = 0; i < n; i++){
-                for (int j = 0; j < n; j++){
-                    if (curr->info[i][j] == 0){
-                        for (int num = 1; num <= n; num++){
-                            int **new = alocirajMatricuStanja(n);
-                            for (int p = 0; p < n; p++) {
-                                for (int q = 0; q < n; q++) {
-                                    if (p == i && q == j){
-                                        new[p][q] = num;
-                                    }
-                                    else{
-                                        new[p][q] = curr->info[p][q];
-                                    }
-                                }
-                                if (proveraValidneMatrice(new, n)){
-                                    struct treeNode *newNode = kreirajCvor(new);
 
-                                    if (!(curr->left)){
-                                        curr->left = newNode;
-                                    }
-                                    else{
-                                        curr->right = newNode;
-                                    }
-
-                                    push(stek, new);
-                                }
-                                else{
-                                    dealocirajMatricuStanja(new, n);
-                                }
-                            }
+void razvijStanja(stack* stek, struct treeNode* curr, int n){
+    int** trenutnaMatrica = curr->info;
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+            if (trenutnaMatrica[i][j] == 0){
+                for(int val = 1; val <= n; val++){
+                    int** novoStanje = alocirajMatricuStanja(n);
+                    for (int p = 0; p < n; p++){
+                        for (int q = 0; q < n; q++){
+                            novoStanje[p][q] = trenutnaMatrica[p][q];
                         }
                     }
+                    novoStanje[i][j] = val;
+                    dodajDete(stek, curr, n, novoStanje);
+                    dealocirajMatricuStanja(novoStanje, n);
                 }
             }
         }
     }
+}
+
+
+void kreirajStablo(int** inicijalnaMatrica, struct tree *tree, int n){
+    stack *stek = inicijalizujStek();
+    tree->root = kreirajCvor(inicijalnaMatrica);
+    push(stek, tree->root);
+
+    while(!stack_empty(stek)){
+        TreeNode *curr = pop(stek);
+        if (curr != NULL)
+        razvijStanja(stek, curr, n);
+    }
+
 }
 
 
