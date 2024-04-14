@@ -10,6 +10,8 @@ typedef struct treeNode{
     int childrenSize;
     struct treeNode** children;
     int dubina;
+    int dobarPut;
+    struct treeNode *otac;
 } TreeNode;
 
 typedef struct tree{
@@ -37,6 +39,8 @@ TreeNode *kreirajCvor(int** matrix){
     cvor->children = NULL;
     cvor->info = matrix;
     cvor->dubina = 0;
+    cvor->dobarPut = 0;
+    cvor->otac = NULL;
 
     return cvor;
 }
@@ -150,6 +154,7 @@ void dodajDete(stack* stek, struct treeNode* curr, int n, int** novoStanje) {
         struct treeNode* novoDete = kreirajCvor(novoStanje);
         int childNum = curr->childrenSize;
         struct treeNode** childArr = curr->children;
+        novoDete->otac = curr;
         childNum++;
         childArr = (struct treeNode**)realloc(childArr,  childNum * sizeof(struct treeNode*));
         if (!childArr) {
@@ -331,10 +336,12 @@ void ispisiResenja(int **trenutnoStanje, struct tree* tree, int n) {
         while (next != NULL) {
             if (proveriResenje(next->info, n) && proveriDuplikate(resenja, next->info, len, n)) {
                 resenja[len++] = next->info;
+                ispisMatrice(resenja[len - 1], n);
+                putchar('\n');
             }
 
             for (int i = 0; i < next->childrenSize; i++) {
-                next->children[i]->dubina = next->dubina + 1;
+                //next->children[i]->dubina = next->dubina + 1;
                 push(stekPut, next->children[i]);
             }
 
@@ -342,11 +349,35 @@ void ispisiResenja(int **trenutnoStanje, struct tree* tree, int n) {
         }
     }
 
-    for (int i = 0; i < len; i++){
-        ispisMatrice(resenja[i], n);
-        putchar('\n');
+}
+
+void Pomoc(int** trenutnoStanje, struct tree* tree, int n){
+    stack *resenjaStek;
+    stack *putStek;
+    push(putStek, tree->root);
+    struct treeNode *curr;
+
+    while(!stack_empty(putStek)){
+        struct treeNode *next = pop(putStek);
+        while(next != NULL){
+            if (proveriResenje(next->info, n)){
+                push(resenjaStek, next);
+            }
+        }
+        for (int i = 0; i < next->childrenSize; i++){
+            push(putStek, next->children[i]);
+        }
     }
 
+    while(!stack_empty(resenjaStek)){
+        curr = pop(resenjaStek);
+        curr->dobarPut = 1;
+        for (int i = 0; i < curr->childrenSize; i++){
+            if (curr->children[i] != NULL){
+                push(putStek, curr->children[i]);
+            }
+        }
+    }
 }
 
 void predloziPotez (int** trenutnoStanje, struct tree* tree, int n){
@@ -357,9 +388,17 @@ void predloziPotez (int** trenutnoStanje, struct tree* tree, int n){
 
     struct tree *novoStablo = (struct tree*)malloc(sizeof(struct tree));
     kreirajStablo(trenutnoStanje, novoStablo, n);
+    Pomoc(trenutnoStanje, novoStablo, n);
 
-    printf("Predlozen potez je: \n");
-    ispisMatrice(novoStablo->root->children[0]->info, n);
+
+    for (int i = 0; i < novoStablo->root->childrenSize; i++){
+        if (novoStablo->root->children[i]->dobarPut == 1){
+            printf("Predlozen potez je: \n");
+            ispisMatrice(novoStablo->root->children[i]->info, n);
+            break;
+        }
+    }
+
 
 }
 
