@@ -85,15 +85,15 @@ This recursive tree-based approach allows the algorithm to explore all possibili
    ```
 2. **Navigate to the project directory:**:
    ```bash
-   cd sudoku-solver
+   cd sudokutree
    ```
 3. **Compile the code:**:
    ```bash
-   gcc -o sudoku_solver main.c game.c
+   gcc -o sudokutree main.c game.c
    ```
 4. **Run the .exe file:**:
    ```bash
-   sudoku_solver.exe
+   sudokutree.exe
    ```
 
    
