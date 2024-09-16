@@ -1,6 +1,6 @@
 # Sudoku Solver with Backtracking Algorithm
 
-This project implements a **Sudoku Solver** in **C**, which solves n<sup>2</sup>xn<sup>2</sup> Sudoku puzzles using the **Backtracking Algorithm**. The project also utilizes a **tree structure** to manage the backtracking process. This document explains the solver’s functionality, tree structure, and the project's structure in detail.
+This project implements a **Sudoku Solver** in **C**, which solves n<sup>2</sup> x n<sup>2</sup> Sudoku puzzles using the **Backtracking Algorithm**. The project also utilizes a **tree structure** to manage the backtracking process. This document explains the solver’s functionality, tree structure, and the project's structure in detail.
 
 ## Table of Contents
 
@@ -14,7 +14,7 @@ This project implements a **Sudoku Solver** in **C**, which solves n<sup>2</sup>
 
 ## Introduction
 
-Sudoku is a puzzle where you must fill a n^2 x n^2 grid with digits so that each column, each row, and each of the n^2 nxn subgrids contains all the digits from 1 to n. This project uses **backtracking** to solve the puzzle, and a **n-ary tree structure** is applied to track the recursive solving process.
+Sudoku is a puzzle where you must fill a n<sup>2</sup> x n<sup>2</sup> grid with digits so that each column, each row, and each of the n<sup>2</sup> n x n subgrids contains all the digits from 1 to n. This project uses **backtracking** to solve the puzzle, and a **n-ary tree structure** is applied to track the recursive solving process.
 
 ---
 
@@ -64,6 +64,8 @@ The **tree structure** used in the solver tracks the decision-making process dur
 - If all child nodes lead to dead ends, the algorithm backtracks by returning to the previous node and trying different numbers in the previous cell.
   
 This recursive tree-based approach allows the algorithm to explore all possibilities and efficiently find the solution.
+
+![Decision Tree Visualization](visualization.png)
 
 ---
 
