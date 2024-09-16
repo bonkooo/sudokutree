@@ -1,6 +1,6 @@
 # Sudoku Solver with Backtracking Algorithm
 
-This project implements a **Sudoku Solver** in **C**, which solves 9x9 Sudoku puzzles using the **Backtracking Algorithm**. The project also utilizes a **tree structure** to manage the backtracking process. This document explains the solver’s functionality, tree structure, and the project's structure in detail.
+This project implements a **Sudoku Solver** in **C**, which solves n^2xn^2 Sudoku puzzles using the **Backtracking Algorithm**. The project also utilizes a **tree structure** to manage the backtracking process. This document explains the solver’s functionality, tree structure, and the project's structure in detail.
 
 ## Table of Contents
 
@@ -9,10 +9,6 @@ This project implements a **Sudoku Solver** in **C**, which solves 9x9 Sudoku pu
 - [Tree Structure](#tree-structure)
 - [Project Structure](#project-structure)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Example](#example)
-- [Detailed Code Explanation](#detailed-code-explanation)
-- [License](#license)
 
 ---
 
@@ -78,3 +74,24 @@ This recursive tree-based approach allows the algorithm to explore all possibili
 ├── game.c             # Source file with Sudoku solver logic and tree functions
 ├── main.c             # Main file to handle user input and run the solver
 └── README.md          # Documentation (this file)
+```
+
+## Installation
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/bonkooo/sudokutree.git
+   ```
+2. **Navigate to the project directory:**:
+   ```bash
+   cd sudoku-solver
+   ```
+3. **Compile the code:**:
+   ```bash
+   gcc -o sudoku_solver main.c game.c
+   ```
+4. **Run the .exe file:**:
+   ```bash
+   sudoku_solver.exe
+   ```
+
+   
