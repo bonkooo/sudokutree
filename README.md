@@ -1,6 +1,6 @@
 # Sudoku Solver with Backtracking Algorithm
 
-This project implements a **Sudoku Solver** in **C**, which solves n^2xn^2 Sudoku puzzles using the **Backtracking Algorithm**. The project also utilizes a **tree structure** to manage the backtracking process. This document explains the solver’s functionality, tree structure, and the project's structure in detail.
+This project implements a **Sudoku Solver** in **C**, which solves n<sup>2</sup>xn<sup>2</sup> Sudoku puzzles using the **Backtracking Algorithm**. The project also utilizes a **tree structure** to manage the backtracking process. This document explains the solver’s functionality, tree structure, and the project's structure in detail.
 
 ## Table of Contents
 
